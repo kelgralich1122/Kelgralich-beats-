@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelgralich Music</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        secondary: '#FF6B6B',
+                        accent: '#FFD166',
+                        dark: {
+                            bg: '#181818',
+                            card: '#262626',
+                            text: '#E0E0E0'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'shimmer': 'shimmer 2s linear infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                        'scale': 'scale 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-1000px 0' },
+                            '100%': { backgroundPosition: '1000px 0' },
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        },
+                        scale: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Base styles */
+        .gradient-text {
+            background: linear-gradient(90deg, #5D5CDE, #FF6B6B, #FFD166);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            animation: gradient 3s linear infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .moving-bg {
+            background: linear-gradient(135deg, rgba(93, 92, 222, 0.2), rgba(255, 107, 107, 0.2), rgba(255, 209, 102, 0.2));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            background-size: 1000px 100%;
+            animation: shimmer 2s linear infinite;
+        }
+        
+        .rotate-record {
+            animation: spin 6s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .dark .moving-bg {
+            background: linear-gradient(135deg, rgba(93, 92, 222, 0.3), rgba(255, 107, 107, 0.3), rgba(93, 92, 222, 0.3));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%235D5CDE' fill-opacity='0.5' d='M0,192L48,170.7C96,149,192,107,288,106.7C384,107,480,149,576,165.3C672,181,768,171,864,144C960,117,1056,75,1152,69.3C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: 1440px 100px;
+            animation: wave 10s linear infinite;
+        }
+        
+        @keyframes wave {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1440px; }
+        }
+        
+        /* Advanced animations */
+        .btn-glow {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .btn-glow::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(30deg);
+            animation: glow 3s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes glow {
+            0% { transform: rotate(30deg) translateX(-100%); }
+            100% { transform: rotate(30deg) translateX(100%); }
+        }
+        
+        .btn-pulse {
+            animation: btnPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes btnPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .btn-bounce {
+            animation: btnBounce 1s ease infinite;
+            transform-origin: center bottom;
+        }
+        
+        @keyframes btnBounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        /* Stylish scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(93, 92, 222, 0.5);
+            border-radius: 3px;
+        }
+        
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(93, 92, 222, 0.8);
+        }
+        
+        /* Chat styles */
+        .chat-bubble {
+            position: relative;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+        }
+        
+        .chat-bubble.sent {
+            background-color: #5D5CDE;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .chat-bubble.received {
+            background-color: #f0f0f0;
+            color: #333;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .dark .chat-bubble.received {
+            background-color: #2A2A2A;
+            color: #E0E0E0;
+        }
+        
+        /* Premium badge effect */
+        .premium-badge {
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
+            background-size: 200% 200%;
+            animation: gradient-badge 3s ease infinite;
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            color: #000;
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.4);
+        }
+        
+        @keyframes gradient-badge {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Instagram-like stories */
+        .story-ring {
+            position: relative;
+        }
+        
+        .story-ring::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #5D5CDE, #FF6B6B, #FFD166, #5D5CDE);
+            background-size: 300% 300%;
+            animation: rotate-gradient 3s linear infinite;
+            z-index: 0;
+        }
+        
+        @keyframes rotate-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-dark-text transition-colors duration-300">
+    <!-- Theme detection script -->
+    <script>
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+    </script>
+
+    <!-- App container -->
+    <div id="app" class="relative overflow-hidden">
+        <!-- Login/Register screen -->
+        <div id="authScreen" class="fixed inset-0 z-50 bg-white dark:bg-dark-bg flex flex-col items-center justify-center p-4">
+            <!-- Logo -->
+            <div class="mb-8 relative animate-float">
+                <svg class="w-32 h-32" viewBox="0 0 100 100">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#5D5CDE" />
+                            <stop offset="50%" stop-color="#FF6B6B" />
+                            <stop offset="100%" stop-color="#FFD166" />
+                        </linearGradient>
+                        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <circle cx="50" cy="50" r="45" fill="url(#logoGradient)" />
+                    <circle cx="50" cy="50" r="38" fill="rgba(0,0,0,0.2)" class="dark:fill-gray-800" />
+                    <circle cx="50" cy="50" r="30" fill="url(#logoGradient)" class="rotate-record" />
+                    <circle cx="50" cy="50" r="5" fill="#fff" class="dark:fill-gray-200" />
+                    <path d="M 27 27 L 73 73" stroke="#fff" stroke-width="3" class="dark:stroke-gray-200" />
+                    <path d="M 73 27 L 27 73" stroke="#fff" stroke-width="3" class="dark:stroke-gray-200" />
+                    <text x="50" y="85" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold" filter="url(#glow)" class="dark:fill-gray-200">KELGRALICH</text>
+                </svg>
+            </div>
+            
+            <h1 class="text-4xl md:text-5xl font-bold mb-2 gradient-text text-center">KELGRALICH</h1>
+            <p class="text-gray-600 dark:text-gray-400 mb-8 text-center">Your Ultimate Music Experience</p>
+            
+            <!-- Auth tabs -->
+            <div class="w-full max-w-md">
+                <div class="flex mb-4">
+                    <button id="loginTab" class="flex-1 py-2 font-semibold text-center border-b-2 border-primary relative overflow-hidden group">
+                        Login
+                        <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-primary to-secondary group-hover:w-full transition-all duration-500"></span>
+                    </button>
+                    <button id="registerTab" class="flex-1 py-2 font-semibold text-center border-b-2 border-gray-300 text-gray-500 relative overflow-hidden group">
+                        Register
+                        <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-primary to-secondary group-hover:w-full transition-all duration-500"></span>
+                    </button>
+                </div>
+                
+                <!-- Login Form -->
+                <div id="loginForm" class="transition-all duration-300">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-1">Login with:</label>
+                        <div class="flex space-x-2">
+                            <button id="emailLoginBtn" class="flex-1 bg-primary hover:bg-opacity-90 text-white py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center btn-glow">
+                                <i class="fas fa-envelope mr-2"></i> Email
+                            </button>
+                            <button id="phoneLoginBtn" class="flex-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center">
+                                <i class="fas fa-phone mr-2"></i> Phone
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="emailLoginFields">
+                        <div class="mb-4">
+                            <label for="loginEmail" class="block text-sm font-medium mb-1">Email</label>
+                            <input type="email" id="loginEmail" placeholder="your@email.com" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-card focus:ring-2 focus:ring-primary focus:border-transparent text-base transition-all duration-300">
+                        </div>
+                        <div class="mb-6">
+                            <label for="loginPassword" class="block text-sm font-medium mb-1">Password</label>
+                            <input type="password" id="loginPassword" placeholder="********" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-card focus:ring-2 focus:ring-primary focus:border-transparent text-base transition-all duration-300">
+                        </div>
+                    </div>
+                    
+                    <div id="phoneLoginFields" class="hidden">
+                        <div class="mb-6">
+                            <label for="loginPhone" class="block text-sm font-medium mb-1">Phone Number</label>
+                            <div class="flex">
+                                <select class="px-2 py-3 rounded-l-lg border border-r-0 border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-card text-base">
+                                    <option>+255</option>
+                                    <option>+1</option>
+                                    <option>+44</option>
+                                </select>
+                                <input type="tel" id="loginPhone" placeholder="684520213" class="flex-1 px-4 py-3 rounded-r-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-card focus:ring-2 focus:ring-primary focus:border-transparent text-base transition-all duration-300">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="rememberMe" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                            <label for="rememberMe" class="ml-2 block text-sm">Remember me</label>
+                        </div>
+                        <a href="#" class="text-sm text-primary hover:underline">Forgot password?</a>
+                    </div>
+                    
+                    <button id="loginButton" class="w-full bg-primary hover:bg-opacity-90 text-white font-medium py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg mb-4 btn-pulse relative overflow-hidden">
+                        <span class="relative z-10">Login</span>
+                    </button>
+                </div>
+                
+                <!-- Register Form -->
+                <div id="registerForm" class="hidden transition-all duration-300">
+                    <div class="mb-4">
+                        <label for="regName" class="block text-sm font-medium mb-1">Full Name</label>
+                        <input type="text" id="regName" placeholder="Your Name" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-card focus:ring-2 focus:ring-primary focus:border-transparent text-base transition-all duration-300">
+                    </div>
+                    <div class="mb-4">
+                        <label for="regEmail" class="block text-sm font-medium mb-1">Email</label>
+                        <input type="email" id="regEmail" placeholder="your@email.com" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-card focus:ring-2 focus:ring-primary focus:border-transparent text-base transition-all duration-300">
+                    </div>
+                    <div class="mb-4">
+                        <label for="regPhone" class="block text-sm font-medium mb-1">Phone Number</label>
+                        <div class="flex">
+                            <select class="px-2 py-3 rounded-l-lg border border-r-0 border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-card text-base">
+                                <option>+255</option>
+                                <option>+1</option>
+                                <option>+44</option>
+                            </select>
+                            <input type="tel" id="regPhone" placeholder="684520213" class="flex-1 px-4 py-3 rounded-r-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-card focus:ring-2 focus:ring-primary focus:border-transparent text-base transition-all duration-300">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label for="regPassword" class="block text-sm font-medium mb-1">Password</label>
+                        <input type="password" id="regPassword" placeholder="********" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-card focus:ring-2 focus:ring-primary focus:border-transparent text-base transition-all duration-300">
+                    </div>
+                    
+                    <button id="registerButton" class="w-full bg-primary hover:bg-opacity-90 text-white font-medium py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg mb-4 btn-pulse relative overflow-hidden">
+                        <span class="relative z-10">Register</span>
+                    </button>
+                </div>
+                
+                <div class="text-center">
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        By continuing, you agree to our 
+                     
