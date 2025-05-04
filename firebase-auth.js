@@ -1,8 +1,8 @@
-// Import the functions you need from Firebase SDKs
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+// Import Firebase libraries
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js";
 
-// Your web app's Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyACknEp5ZnuUkDeMVA-zuMiSa2R73nbdDw",
     authDomain: "kelgralich-f1358.firebaseapp.com",
@@ -18,47 +18,66 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 // DOM Elements
-const loginForm = document.getElementById("loginForm");
-const registerForm = document.getElementById("registerForm");
-const toggleForm = document.getElementById("toggleForm");
-const loginButton = document.getElementById("loginButton");
-const registerButton = document.getElementById("registerButton");
+const loginForm = document.getElementById("login-form");
+const signupForm = document.getElementById("signup-form");
+const googleLoginButton = document.getElementById("google-login");
+const toggleToSignup = document.getElementById("toggle-to-signup");
+const backToLogin = document.getElementById("back-to-login");
+const authError = document.getElementById("auth-error");
 
-// Toggle between login and register forms
-toggleForm.addEventListener("click", () => {
-    if (loginForm.classList.contains("hidden")) {
-        loginForm.classList.remove("hidden");
-        registerForm.classList.add("hidden");
-        toggleForm.textContent = "Don't have an account? Register here";
-    } else {
-        loginForm.classList.add("hidden");
-        registerForm.classList.remove("hidden");
-        toggleForm.textContent = "Already have an account? Login here";
-    }
+// Toggle Forms
+toggleToSignup.addEventListener("click", () => {
+    loginForm.classList.add("hidden");
+    signupForm.classList.remove("hidden");
+    authError.classList.add("hidden");
 });
 
-// Login logic
-loginButton.addEventListener("click", async () => {
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value.trim();
+backToLogin.addEventListener("click", () => {
+    signupForm.classList.add("hidden");
+    loginForm.classList.remove("hidden");
+    authError.classList.add("hidden");
+});
+
+// Handle Login
+loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-password").value;
 
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        alert("Login successful! Welcome " + userCredential.user.email);
+        alert("Login Successful! Welcome " + userCredential.user.email);
     } catch (error) {
-        alert("Error logging in: " + error.message);
+        authError.textContent = error.message;
+        authError.classList.remove("hidden");
     }
 });
 
-// Registration logic
-registerButton.addEventListener("click", async () => {
-    const email = document.getElementById("regEmail").value.trim();
-    const password = document.getElementById("regPassword").value.trim();
+// Handle Sign-Up
+signupForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const email = document.getElementById("signup-email").value;
+    const password = document.getElementById("signup-password").value;
 
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        alert("Registration successful! Welcome " + userCredential.user.email);
+        alert("Sign-Up Successful! Welcome " + userCredential.user.email);
+        signupForm.classList.add("hidden");
+        loginForm.classList.remove("hidden");
     } catch (error) {
-        alert("Error registering: " + error.message);
+        authError.textContent = error.message;
+        authError.classList.remove("hidden");
+    }
+});
+
+// Handle Google Login
+googleLoginButton.addEventListener("click", async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+        const result = await signInWithPopup(auth, provider);
+        alert("Google Login Successful! Welcome " + result.user.displayName);
+    } catch (error) {
+        authError.textContent = error.message;
+        authError.classList.remove("hidden");
     }
 });
